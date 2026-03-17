@@ -1,49 +1,42 @@
-//your JS code here. If required.
-const circles = document.querySelectorAll('.circle');
-const nextBtn = document.getElementById('next');
-const prevBtn = document.getElementById('prev');
+document.addEventListener("DOMContentLoaded", function () {
 
-let currentActive = 1;
+    const circles = document.querySelectorAll('.circle');
+    const nextBtn = document.getElementById('next');
+    const prevBtn = document.getElementById('prev');
+    const progress = document.getElementById('progress');
 
-// NEXT button click
-nextBtn.addEventListener('click', () => {
-    if (currentActive < circles.length) {
-        currentActive++;
-        update();
-    }
-});
+    let currentActive = 1;
 
-// PREVIOUS button click
-prevBtn.addEventListener('click', () => {
-    if (currentActive > 1) {
-        currentActive--;
-        update();
-    }
-});
-
-function update() {
-    circles.forEach((circle, index) => {
-        if (index < currentActive) {
-            circle.classList.add('active');
-        } else {
-            circle.classList.remove('active');
+    nextBtn.addEventListener('click', () => {
+        if (currentActive < circles.length) {
+            currentActive++;
+            update();
         }
     });
 
-    // Enable/Disable buttons
-    if (currentActive === 1) {
-        prevBtn.disabled = true;
-    } else if (currentActive === circles.length) {
-        nextBtn.disabled = true;
-    } else {
-        prevBtn.disabled = false;
-        nextBtn.disabled = false;
-    }
+    prevBtn.addEventListener('click', () => {
+        if (currentActive > 1) {
+            currentActive--;
+            update();
+        }
+    });
 
-    // Update progress line (optional if you have a progress div)
-    const progress = document.getElementById('progress');
-    if (progress) {
+    function update() {
+        circles.forEach((circle, index) => {
+            if (index < currentActive) {
+                circle.classList.add('active');
+            } else {
+                circle.classList.remove('active');
+            }
+        });
+
+        // Buttons
+        prevBtn.disabled = currentActive === 1;
+        nextBtn.disabled = currentActive === circles.length;
+
+        // Progress bar
         const percent = ((currentActive - 1) / (circles.length - 1)) * 100;
         progress.style.width = percent + "%";
     }
-}
+
+});
